@@ -34,15 +34,17 @@ try {
         $email = trim($_POST['email']);
         $phone = trim($_POST['phone']);
         $membership_status = trim($_POST['membership_status']);
+        $manager_id = $_SESSION['user_id']; // Obtenemos el ID del manager desde la sesión
 
         // Validar que los campos no estén vacíos
         if (!empty($name) && !empty($email) && !empty($membership_status)) {
             // Insertar el cliente en la base de datos
-            $stmt = $pdo->prepare("INSERT INTO clients (name, email, phone, membership_status, registered_at) VALUES (:name, :email, :phone, :membership_status, NOW())");
+            $stmt = $pdo->prepare("INSERT INTO clients (name, email, phone, membership_status, manager_id, registered_at) VALUES (:name, :email, :phone, :membership_status, :manager_id, NOW())");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':phone', $phone);
             $stmt->bindParam(':membership_status', $membership_status);
+            $stmt->bindParam(':manager_id', $manager_id);
             $stmt->execute();
 
             $success = "Cliente agregado exitosamente.";

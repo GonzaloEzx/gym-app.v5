@@ -20,16 +20,7 @@ try {
 
     // Obtener todos los clientes
     $stmt = $pdo->query("SELECT * FROM clients");
-
-    // Obtener el ID del manager desde la sesión
-    $manager_id = $_SESSION['user_id'];
-
-    // Consultar los clientes asociados al manager actual
-    $stmt = $pdo->prepare("SELECT * FROM clients WHERE manager_id = :manager_id");
-    $stmt->bindParam(':manager_id', $manager_id);
-    $stmt->execute();
     $clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
@@ -37,14 +28,12 @@ try {
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard - Gym App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="text-center">Panel de Gestión - <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
@@ -94,5 +83,4 @@ try {
         </div>
     </div>
 </body>
-
 </html>
